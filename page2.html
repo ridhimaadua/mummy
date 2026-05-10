@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mother's Day - Balloons</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Balloons Section -->
+<div class="balloons-container full-page">
+  <div class="balloon balloon-pink" onclick="popBalloon(this, 'You\'re the best mom!', 'WhatsApp Image 2026-05-10 at 1.09.17 AM.jpeg')">
+    <div class="balloon-content">
+      <p class="quote">You're the best mom!</p>
+    </div>
+  </div>
+
+  <div class="balloon balloon-red" onclick="popBalloon(this, 'Thank you for your love', 'WhatsApp Image 2026-05-10 at 1.11.22 AM.jpeg')">
+    <div class="balloon-content">
+      <p class="quote">Thank you for your love</p>
+    </div>
+  </div>
+
+  <div class="balloon balloon-purple" onclick="popBalloon(this, 'You inspire us daily', 'WhatsApp Image 2026-05-10 at 10.20.34 AM.jpeg')">
+    <div class="balloon-content">
+      <p class="quote">You inspire us daily</p>
+    </div>
+  </div>
+
+  <div class="balloon balloon-blue" onclick="popBalloon(this, 'Forever grateful', 'momomo.jpeg')">
+    <div class="balloon-content">
+      <p class="quote">Forever grateful</p>
+    </div>
+  </div>
+
+  <div class="balloon balloon-yellow" onclick="popBalloon(this, 'Happy Mother\'s Day!', 'mummyy.jpeg')">
+    <div class="balloon-content">
+      <p class="quote">Happy Mother's Day!</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Popup -->
+<div id="imageModal" class="modal" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="closeModal()">&times;</span>
+    
+    <div class="modal-card">
+      <div class="modal-polaroid">
+        <img src="momomo.jpeg" alt="memory">
+      </div>
+      
+      <div class="modal-text">
+        <p class="modal-quote" id="modalQuote">Pop the balloons, mommy! 🎈</p>
+        <p class="surprises" id="surprisesCount">5 surprises remaining</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Back Button -->
+<div class="back-button-container">
+  <button class="next-btn" onclick="window.location.href='index.html'">Back</button>
+</div>
+
+<script>
+  let balloonsPopped = 0;
+  const totalBalloons = 5;
+
+  function popBalloon(element, quote, imagePath) {
+    element.classList.add('popped');
+    element.style.pointerEvents = 'none';
+    balloonsPopped++;
+    
+    // Show modal with image
+    showModal(quote, imagePath);
+    
+    // Add confetti effect
+    createConfetti(element);
+  }
+
+  function showModal(quote, imagePath) {
+    const modal = document.getElementById('imageModal');
+    document.getElementById('modalQuote').textContent = quote;
+    document.getElementById('surprisesCount').textContent = (totalBalloons - balloonsPopped) + ' surprises remaining';
+    document.querySelector('.modal-polaroid img').src = imagePath;
+    modal.style.display = 'flex';
+  }
+
+  function closeModal(event) {
+    if (event && event.target.id !== 'imageModal') return;
+    document.getElementById('imageModal').style.display = 'none';
+  }
+
+  function createConfetti(element) {
+    const rect = element.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+
+    for (let i = 0; i < 15; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = x + 'px';
+      confetti.style.top = y + 'px';
+      confetti.style.backgroundColor = element.classList[1] === 'balloon-pink' ? '#ff69b4' : 
+                                        element.classList[1] === 'balloon-red' ? '#e74c3c' :
+                                        element.classList[1] === 'balloon-purple' ? '#9b59b6' :
+                                        element.classList[1] === 'balloon-blue' ? '#3498db' : '#f1c40f';
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 600);
+    }
+  }
+</script>
+
+</body>
+</html>
